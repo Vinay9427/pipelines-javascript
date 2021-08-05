@@ -8,9 +8,22 @@ trigger:
 
 #pool: Default
 pool:
-  vmImage: ubuntu-latest
+    vmImage: ubuntu-latest
 
 steps:
+- task: SonarQubePrepare@4
+  inputs:
+    SonarQube: 'sonar-scanner-javascript'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'demo-ci-cd_demo-ci-cd'
+    cliProjectName: 'demo-ci-cd'
+    cliSources: '.'
+- task: SonarQubeAnalyze@4
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
+
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
